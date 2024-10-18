@@ -70,6 +70,17 @@ def recommend_outfit(season, temperature, occasion, base_color, accent_color):
     recommendation = outfit_recommendation(season, temperature, occasion, base_color, accent_color)
     return recommendation
 
+def long_sleeve_module(style, color):
+    styles = {
+        "formal": ["衬衫", "西装外套"],
+        "casual": ["T恤", "卫衣", "针织衫"],
+        "sporty": ["运动上衣", "棒球衫"],
+        "trendy": ["oversize卫衣", "crop top"]
+    }
+
+# 定义颜色选项
+color_options = ["白色", "黑色", "灰色", "藏青色", "米色", "粉色", "浅蓝色", "橄榄绿", "酒红色", "卡其色", "紫色", "黄色"]
+
 # 使用 Gradio 创建一个界面
 demo = gr.Interface(
     fn=recommend_outfit,
@@ -77,12 +88,12 @@ demo = gr.Interface(
         gr.Dropdown(choices=["spring", "summer", "autumn", "winter"], label="季节 (Season)"),
         gr.Slider(minimum=-10, maximum=40, step=1, label="温度 (Temperature in °C)"),
         gr.Dropdown(choices=["work", "casual", "formal"], label="场景 (Occasion)"),
-        gr.Textbox(label="基础颜色 (Base Color)"),
-        gr.Textbox(label="点缀颜色 (Accent Color)"),
+        gr.Dropdown(choices=color_options, label="基础颜色 (Base Color)"),
+        gr.Dropdown(choices=color_options, label="点缀颜色 (Accent Color)"),
     ],
     outputs="json",
     title="衣服搭配推荐系统 (Outfit Recommendation System)",
-    description="输入季节、温度、场景和颜色，获取适合的衣服搭配建议。",
+    description="输入季节、温度、场景和颜色，获取两套适合的衣服搭配建议。",
 )
 
 if __name__ == "__main__":
